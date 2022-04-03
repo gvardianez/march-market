@@ -1,11 +1,17 @@
 package ru.geekbrains.march.market.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
-public class CreateNewProductDto {
-    private String title;
+@AllArgsConstructor
+public class CartDto {
+
+    private List<OrderItemDto> items;
     private int price;
+
 }
