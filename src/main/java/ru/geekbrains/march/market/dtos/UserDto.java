@@ -5,12 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
 
     private Long id;
-    private String userName;
+    private String username;
     private String password;
 
 }

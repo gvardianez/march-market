@@ -1,6 +1,6 @@
 package ru.geekbrains.march.market.converters;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.march.market.utils.Cart;
 import ru.geekbrains.march.market.dtos.CartDto;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartConverter {
 
     private final OrderItemConverter orderItemConverter;

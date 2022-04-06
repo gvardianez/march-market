@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -24,10 +25,10 @@ public class OrderItem {
     private int quantity;
 
     @Column(name = "unit_price")
-    private int unitPrice;
+    private BigDecimal unitPrice;
 
     @Column(name = "total_price")
-    private int totalPrice;
+    private BigDecimal totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -37,17 +38,20 @@ public class OrderItem {
         this.product = product;
         this.quantity = quantity;
         this.unitPrice = product.getPrice();
-        this.totalPrice = unitPrice * quantity;
+        calculateTotalPrice(quantity);
     }
 
     public void changeQuantity(int delta) {
         this.quantity += delta;
-        this.totalPrice = this.unitPrice * this.quantity;
+        calculateTotalPrice(quantity);
     }
 
     public void setQuantity(int newQuantity) {
         this.quantity = newQuantity;
-        this.totalPrice = this.unitPrice * this.quantity;
+        calculateTotalPrice(quantity);
     }
 
+    private void calculateTotalPrice(int quantity) {
+        this.totalPrice = unitPrice.multiply(BigDecimal.valueOf(quantity));
+    }
 }

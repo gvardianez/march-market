@@ -3,6 +3,7 @@ package ru.geekbrains.march.market.utils;
 import lombok.Data;
 import ru.geekbrains.march.market.entities.OrderItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +12,14 @@ import java.util.List;
 public class Cart {
 
     private List<OrderItem> items;
-    private int price;
+    private BigDecimal price;
 
     public Cart() {
         items = new ArrayList<>();
     }
 
     public void clear() {
-        price = 0;
+        price = BigDecimal.ZERO;
         items.clear();
     }
 
@@ -33,8 +34,8 @@ public class Cart {
     }
 
     public void recalculate() {
-        price = 0;
-        items.forEach(orderItem -> price += orderItem.getTotalPrice());
+        price = BigDecimal.ZERO;
+        items.forEach(orderItem -> price = price.add(orderItem.getTotalPrice()));
     }
 
 }

@@ -104,8 +104,14 @@ angular.module('market', ['ngStorage']).controller('indexController', function (
         }
     };
 
+    $scope.deleteProduct = function (id) {
+        $http.delete(contextPath + '/products/' + id)
+            .then(function (response) {
+                $scope.fillTable();
+            });
+    }
+
     $scope.createNewProduct = function () {
-        // console.log($scope.newProduct);
         $http.post(contextPath + '/products', $scope.newProduct)
             .then(function (response) {
                 $scope.newProduct = null;

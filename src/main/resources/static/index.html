@@ -64,7 +64,7 @@
                 <button class="btn btn-danger" ng-click="changeQuantity(p.id, 1)">Добавить</button>
             </td>
             <td>
-                <button class="btn btn-danger" ng-click="removeProductFromCart(p.id)">Удалить</button>
+                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
             </td>
         </tr>
         </tbody>
@@ -145,7 +145,7 @@
                    placeholder="Название">
         </div>
         <div class="col-auto">
-            <input type="number" class="form-control" id="newProductPrice" ng-model="newProduct.price"
+            <input type = "" class="form-control" id="newProductPrice" ng-model="newProduct.price"
                    placeholder="Цена">
         </div>
         <div class="col-auto">

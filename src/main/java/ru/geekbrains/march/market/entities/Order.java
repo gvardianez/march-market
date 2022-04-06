@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cascade;
 import ru.geekbrains.march.market.utils.Cart;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Order {
     private Long id;
 
     @Column(name = "price")
-    private int price;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -32,7 +32,6 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteById(id);
     }

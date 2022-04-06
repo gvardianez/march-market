@@ -1,7 +1,7 @@
 create table products (
     id          bigserial primary key,
     title       varchar(255) ,
-    price       int
+    price       numeric(8, 2)
 );
 
 insert into products (title, price) values
@@ -41,16 +41,16 @@ values ('CAN_READ'),
 create table orders (
     id          bigserial primary key,
     user_id     bigint not null references users (id),
-    price       int
+    price       numeric(8, 2)
 );
 
 create table order_items (
     id          bigserial primary key,
-    order_id    bigint not null references orders (id),
+    order_id    bigint  references orders (id),
     product_id  bigint not null references products (id),
     quantity    int,
-    unit_price  int,
-    total_price int
+    unit_price  numeric(8, 2),
+    total_price numeric(8, 2)
 );
 
 CREATE TABLE users_roles (

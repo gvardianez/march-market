@@ -8,7 +8,7 @@ import ru.geekbrains.march.market.entities.User;
 public class UserConverter {
 
     public User dtoToEntity(UserDto userDto) {
-        return new User(userDto.getId(), userDto.getUserName(), userDto.getPassword());
+        return new User(userDto.getId(), userDto.getUsername(), userDto.getPassword());
     }
 
     public UserDto entityToDto(User user) {

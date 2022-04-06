@@ -34,13 +34,29 @@ public class CartService {
                                 return;
                             }
                             orderItem.changeQuantity(delta);
+                            cart.recalculate();
                         },
                         () -> {
                             if (delta > 0)
                                 cart.add(new OrderItem(productService.getProduct(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id = " + id)), delta));
                         }
                 );
-        cart.recalculate();
+// вот такой вариант получился циклами, что-то не особо он мне нравится, проверку if (delta > 0) делаем на случай, если товара не нашли в корзине, и delta <=0 оказалась(т.е добавлять не надо)
+//        for (OrderItem orderItem : cart.getItems()) {
+//            if (orderItem.getProduct().getId().equals(id)) {
+//                if ((orderItem.getQuantity() + delta) <= 0) {
+//                    cart.remove(orderItem);
+//                    return;
+//                }
+//                orderItem.changeQuantity(delta);
+//                cart.recalculate();
+//                return;
+//            }
+//        }
+//        if (delta > 0) {
+//            cart.add(new OrderItem(productService.getProduct(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id = " + id)), delta));
+//            cart.recalculate();
+//        }
     }
 
     public void setProductQuantity(Long id, Integer newQuantity) {
