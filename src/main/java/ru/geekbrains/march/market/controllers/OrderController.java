@@ -28,7 +28,7 @@ public class OrderController {
 
     @GetMapping("/create")
     public OrderDto createNewOrder(Principal principal) {
-        if (cartService.getCart().getItems().size() == 0) throw new ResourceNotFoundException("Cart is clear");
+        if (cartService.getCart().getItems().size() == 0) throw new IllegalStateException("Cart is clear");
         String username = principal.getName();
         User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         return orderConverter.entityToDto(orderService.createNewOrder(user, cartService.getCart()));
