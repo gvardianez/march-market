@@ -11,6 +11,7 @@ import ru.geekbrains.march.market.services.CategoryService;
 import ru.geekbrains.march.market.services.ProductService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -22,8 +23,8 @@ public class ProductController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.findAll();
+    public List<ProductDto> getAllProducts() {
+        return productService.findAll().stream().map(productConverter::entityToDto).collect(Collectors.toList());
     }
 
     @PostMapping
