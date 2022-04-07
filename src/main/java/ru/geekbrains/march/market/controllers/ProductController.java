@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.march.market.converters.ProductConverter;
 import ru.geekbrains.march.market.dtos.ProductDto;
 import ru.geekbrains.march.market.entities.Product;
+import ru.geekbrains.march.market.exceptions.ResourceNotFoundException;
+import ru.geekbrains.march.market.services.CategoryService;
 import ru.geekbrains.march.market.services.ProductService;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final ProductConverter productConverter;
+    private final CategoryService categoryService;
 
     @GetMapping
     public List<Product> getAllProducts() {
@@ -27,7 +30,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createNewProduct(@RequestBody ProductDto productDto) {
         productDto.setId(null);
-        Product product = productConverter.dtoToEntity(productDto);
+        Product product = productConverter.dtoToEntity(productDto, categoryService.findByTitle(productDto.getTitle()).orElseThrow(() -> new ResourceNotFoundException("Категория с названием: " + productDto.getCategoryTitle() + " не найдена")));
         return productConverter.entityToDto(productService.createNewProduct(product));
     }
 

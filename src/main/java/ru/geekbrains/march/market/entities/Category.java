@@ -7,26 +7,23 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Data
-@Table(name = "roles")
+@Table(name = "categories")
 @NoArgsConstructor
-public class Role {
+@Data
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
-    @ManyToMany
-    @JoinTable(name = "roles_authorities",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name ="authority_id"))
-    private Collection<Authority> authorities;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -35,5 +32,6 @@ public class Role {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 
 }
