@@ -26,6 +26,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "email")
+    private String email;
+
     @OneToMany(mappedBy = "user")
     private List<Order> orderList;
 
@@ -44,10 +47,11 @@ public class User {
 
     private LocalDateTime updatedAt;
 
-    public User(Long id, String username, String password){
+    public User(Long id, String username, String password, String email){
         this.id = id;
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
 

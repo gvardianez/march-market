@@ -23,40 +23,40 @@ public class CartService {
         cart = new Cart();
     }
 
+    public void addProductById(Long id) {
+        cart.getItems()
+                .stream()
+                .filter(orderItem -> orderItem.getProduct().getId().equals(id))
+                .findFirst()
+                .ifPresentOrElse(orderItem -> orderItem.changeQuantity(1),
+                        () -> cart.add(new OrderItem(productService.getProduct(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id = " + id)), 1)));
+    }
+
     public void changeProductQuantity(Long id, Integer delta) {
         cart.getItems()
                 .stream()
                 .filter(orderItem -> orderItem.getProduct().getId().equals(id))
                 .findFirst()
                 .ifPresentOrElse(orderItem -> {
-                            if ((orderItem.getQuantity() + delta) <= 0) {
+                            orderItem.changeQuantity(delta);
+                            if (orderItem.getQuantity() <= 0) {
                                 cart.remove(orderItem);
                                 return;
                             }
-                            orderItem.changeQuantity(delta);
                             cart.recalculate();
-                        },
-                        () -> {
-                            if (delta > 0)
-                                cart.add(new OrderItem(productService.getProduct(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id = " + id)), delta));
+                        }, () -> {
+                            throw new ResourceNotFoundException("Product not found, id = " + id);
                         }
                 );
-// вот такой вариант получился циклами, что-то не особо он мне нравится, проверку if (delta > 0) делаем на случай, если товара не нашли в корзине, и delta <=0 оказалась(т.е добавлять не надо)
 //        for (OrderItem orderItem : cart.getItems()) {
 //            if (orderItem.getProduct().getId().equals(id)) {
-//                if ((orderItem.getQuantity() + delta) <= 0) {
-//                    cart.remove(orderItem);
-//                    return;
-//                }
 //                orderItem.changeQuantity(delta);
+//                if (orderItem.getQuantity() <= 0) cart.remove(orderItem);
 //                cart.recalculate();
 //                return;
 //            }
 //        }
-//        if (delta > 0) {
-//            cart.add(new OrderItem(productService.getProduct(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id = " + id)), delta));
-//            cart.recalculate();
-//        }
+//        throw new ResourceNotFoundException("Product not found, id = " + id);
     }
 
     public void setProductQuantity(Long id, Integer newQuantity) {

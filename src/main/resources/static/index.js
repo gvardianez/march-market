@@ -111,11 +111,27 @@ angular.module('market', ['ngStorage']).controller('indexController', function (
             });
     }
 
+    $scope.addProduct = function (id) {
+        $http.get(contextPath + '/cart/add/' + id)
+            .then(function (response) {
+                $scope.fillCart();
+            });
+    }
+
     $scope.createNewProduct = function () {
         $http.post(contextPath + '/products', $scope.newProduct)
             .then(function (response) {
                 $scope.newProduct = null;
                 $scope.fillTable();
+            });
+    }
+
+    $scope.showCurrentUserProfile = function(){
+        $http.get(contextPath + '/profile')
+            .then(function successCallback(response) {
+                alert('My name: ' + response.data.username + '\n' + 'my email: ' + response.data.email );
+            }, function errorCallback(response) {
+                alert('unauthorized');
             });
     }
 
